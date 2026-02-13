@@ -5,10 +5,6 @@ xorg-server-xwayland xdg-desktop-portal-wlr pulsemixer elogind \
 mesa-dri mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
 pulseaudio wl-clipboard cliphist swaylock swayidle wlsunset 
 
-# Using Fish shell to run Fisher commands
-fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
-fish -c "fisher install jomik/fish-gruvbox"
-
 # Create necessary directories
 mkdir -p ~/.config/river/
 mkdir -p ~/Pictures/screenshots
