@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Autostart Programs
-exec swaybg -i ~/.config/river/bg.jpg
+exec swaybg -i ~/.config/river/bg.jpg &
 # Kill already running process
 _ps=(waybar mako)
 for _prs in "${_ps[@]}"; do
