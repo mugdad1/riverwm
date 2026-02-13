@@ -4,8 +4,8 @@ working_directory = "None"
 
 # Themes --
 import = [ 
-  "~/.config/alacritty/nordic.toml",
-  "~/.config/alacritty/keybinds.toml"
+  "~/.config/river/alacritty/gruvbox.toml",
+  "~/.config/river/alacritty/keybinds.toml"
 ]
 
 [window]
