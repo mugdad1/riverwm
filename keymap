@@ -102,15 +102,15 @@ riverctl map normal Super BackSpace spawn 'notify-send "Pass Man" "Clear Cache T
 # Super+Shift+BackSpace to open password manager session
 riverctl map normal Super+Shift BackSpace spawn tessen
 
-# Super+X to open clipboard
-#riverctl map normal Super C spawn 'cliphist list | rofi -dmenu -p Clipboard | cliphist decode | wl-copy'
+# Super+v to open clipboard
+riverctl map normal Super v spawn 'cliphist list | rofi -dmenu -p Clipboard | cliphist decode | wl-copy'
 
 # Super+Shift+C to clear clipboard
 #riverctl map normal Super+Shift C spawn 'cliphist wipe'
 
 # Print to take screenshot
 riverctl map normal None Print spawn '$HOME/.config/river/scripts/screenshot'
-riverctl map normal Super S spawn '$HOME/.config/river/scripts/rofi_screenshot'
+riverctl map normal Super S spawn '$HOME/.config/river/scripts/sscreenshot'
 
 # Super+P to open dmenu_power
 riverctl map normal Super X spawn '$HOME/.config/river/scripts/wofi_powermenu'

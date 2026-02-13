@@ -12,11 +12,8 @@
   ///"modules-center": [],
   "modules-right": [
     "network",
-    "bluetooth",
     "temperature",
-    "backlight",
     "pulseaudio",
-    "battery",
     "tray",
   ],
 
@@ -26,7 +23,7 @@
   },
 
   "clock": {
-    "format": "{:%A, %d %B %Y  %H:%M %Z}",
+    "format": "{:%A,%H:%M }",
   },
 
   "cpu": {
@@ -37,18 +34,7 @@
     "format": "{}% 󰔚",
   },
 
-  "battery": {
-    "states": {
-      "good": 95,
-      "warning": 30,
-      "critical": 20,
-    },
-    "format": "{capacity}% {icon}",
-    "format-charging": "{capacity}% ",
-    "format-plugged": "{capacity}% ",
-    "format-alt": "{time} {icon}",
-    "format-icons": ["", "", "", "", ""],
-  },
+
   
   // waybar-network
     "network": {
@@ -88,41 +74,9 @@
         "smooth-scrolling-threshold": 1,
     },
     
-    // waybar-bluetooth
-    "bluetooth": {
-        //"controller": "controller1",
-        //"format-device-preference": "",
-        "format": " {status}",
-        "format-on": " {status}",
-        "format-off": " {status}",
-        "format-disabled": " {status}",
-        "format-connected": " {device_alias}",
-        "format-connected-battery": " {device_alias}, {device_battery_percentage}%",
-        "tooltip": true,
-        "tooltip-format": "{controller_alias}\t{controller_address}",
-        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
-        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-        "on-click": "~/.config/hypr/scripts/rofi_bluetooth",
-        "on-click-right": "blueman-manager",
-    },
 
-  // waybar-backlight
-    "backlight": {
-		"interval": 2,
-		"align": 0,
-		"rotate": 0,
-        //"device": "amdgpu_bl0",
-        "format": "{icon} {percent}%",
-        "format-icons": ["", "", "", ""],
-		// Commands to execute on events
-        "on-click": "",
-        "on-click-middle": "",
-        "on-click-right": "",
-        "on-update": "",
-        "on-scroll-up": "light -A 5%",
-        "on-scroll-down": "light -U 5%",
-        "smooth-scrolling-threshold": 1,
-    },
+
+
 
   "river/tags": {
     "num-tags": 7,
