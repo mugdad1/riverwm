@@ -46,6 +46,15 @@ riverctl map normal Super Q close
 
 # Super+Alt+Q to exit river
 riverctl map normal Super+Alt Q exit
+#reloadconfig
+riverctl map normal Super R spawn $HOME/.config/river/init
+# pcmanfm-qt
+riverctl map normal Super y spawn "yazi"
+
+# firefox
+riverctl map normal Super B spawn "librewolf"
+#screenshot
+riverctl map normal None Print spawn 'IMG=~/Pictures/screenshots/$(date | sed "s/\s/-/g" | sed "s/--/-/g").png&&grim -g "$(slurp)" $IMG && cat $IMG | wl-copy && notify-send "Screenshot has been saved and copied to your clipboard" -a "grim" -u normal -t 2000'
 
 # Super+M to bump the focused view to the top of the layout stack.
 riverctl map normal Super M zoom
@@ -93,30 +102,9 @@ riverctl map normal Super F toggle-fullscreen
 # Super+D to spawn rofi drun
 riverctl map normal Super D spawn '$HOME/.config/river/scripts/wofi_menu'
 
-# Super+D to spawn rofi run
-#riverctl map normal Super+Shift D spawn 'rofi -show run'
-
-# Super+BackSpace to close password manager session
-riverctl map normal Super BackSpace spawn 'notify-send "Pass Man" "Clear Cache Time Out : $(gpg-connect-agent reloadagent /bye)"'
-
-# Super+Shift+BackSpace to open password manager session
-riverctl map normal Super+Shift BackSpace spawn tessen
 
 # Super+v to open clipboard
-riverctl map normal Super v spawn 'cliphist list | rofi -dmenu -p Clipboard | cliphist decode | wl-copy'
+riverctl map normal Super v spawn 'cliphist list | wofi -dmenu -p Clipboard | cliphist decode | wl-copy'
 
 # Super+Shift+C to clear clipboard
 #riverctl map normal Super+Shift C spawn 'cliphist wipe'
-
-# Print to take screenshot
-riverctl map normal None Print spawn '$HOME/.config/river/scripts/screenshot'
-riverctl map normal Super S spawn '$HOME/.config/river/scripts/sscreenshot'
-
-# Super+P to open dmenu_power
-riverctl map normal Super X spawn '$HOME/.config/river/scripts/wofi_powermenu'
-
-# Super+S to open dmenu_mager
-#riverctl map normal Super S spawn dmenu_mager
-
-# Super+Tab to open list window
-#riverctl map normal Super Tab spawn 'rofi -show window'
