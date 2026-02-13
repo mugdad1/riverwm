@@ -8,14 +8,8 @@
   "margin-right": 5,
   "height": 30,
   "spacing": 10,
-  "modules-left": ["river/tags", "clock", "river/window"],
-  ///"modules-center": [],
-  "modules-right": [
-    "network",
-    "temperature",
-    "pulseaudio",
-    "tray",
-  ],
+  "modules-center": ["river/tags", "clock", "river/window"],
+
 
   "tray": {
     "icon-size": 16,
