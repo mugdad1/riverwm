@@ -18,14 +18,8 @@ fi
 # Set wallpaper
 ~/.config/river/scripts/wallpaper &
 
-# Apply themes
-~/.config/river/scripts/gtkthemes &
-
 # Lauch notification daemon (mako)
 ~/.config/river/scripts/notifications &
 
 # Lauch statusbar (waybar)
 ~/.config/river/scripts/statusbar &
-
-# Start network manager applet
-nm-applet --indicator &

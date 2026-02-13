@@ -49,7 +49,7 @@ riverctl map normal Super+Alt Q exit
 #reloadconfig
 riverctl map normal Super R spawn $HOME/.config/river/init
 # pcmanfm-qt
-riverctl map normal Super y spawn "yazi"
+riverctl map normal Super y spawn "alacritty -e yazi"
 
 # firefox
 riverctl map normal Super B spawn "librewolf"
