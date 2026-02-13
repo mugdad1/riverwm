@@ -6,10 +6,10 @@ mesa-dri mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
 pulseaudio wl-clipboard cliphist swaylock swayidle wlsunset 
 
 # Create necessary directories
-mkdir -p ~/.config/river/
+mkdir -p ~/.config/{river,micro,fish}
 mkdir -p ~/Pictures/screenshots
-mkdir -p ~/.config/micro/
 cp ~/riverwm/micro/*  ~/.config/micro/
+cp ~/riverwm/fish/* ~/.config/fish/
 # Copy river configuration files
 cp -r ~/riverwm/*	 ~/.config/river/
 
