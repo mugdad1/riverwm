@@ -20,6 +20,8 @@ riverctl set-repeat 50 300
 # Set background color
 riverctl background-color 0x282828
 
+#languge
+riverctl keyboard-layout -options "grp:alt_shift_toggle" "us,ara"
 # Enabled server side decorations
 riverctl rule-add ssd
 
