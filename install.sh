@@ -13,7 +13,7 @@ sudo xbps-install -Syu river chafa wlroots alacritty Waybar wofi mako grim \
 	neovim ripgrep fzf nodejs tree-sitter python3-virtualenv luarocks go shellcheck pulseaudio wl-clipboard cliphist swaylock swayidle wlsunset
 
 echo "[*] Fixing mistaken literal-brace directory if present..."
-BAD_DIR="$CONFIG_DIR/{river,micro,fish}"
+BAD_DIR="$CONFIG_DIR/{river,fish}"
 if [ -e "$BAD_DIR" ]; then
 	echo "Removing literal directory: $BAD_DIR"
 	rm -rf "$BAD_DIR"
