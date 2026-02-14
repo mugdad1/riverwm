@@ -21,15 +21,12 @@ fi
 
 echo "[*] Creating config directories..."
 # Use explicit separate names to be portable across shells
-mkdir -p "$CONFIG_DIR/river" "$CONFIG_DIR/micro" "$CONFIG_DIR/fish" "$HOME/Pictures/screenshots"
+mkdir -p "$CONFIG_DIR/river" "$CONFIG_DIR/fish" "$HOME/Pictures/screenshots"
 
 git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
 rm -rf ~/.config/nvim/.git
 echo "[*] Copying configuration files..."
 # Use -r and check source existence before copying
-if [ -d "$RIVERWM_DIR/micro" ]; then
-	cp -r "$RIVERWM_DIR/micro/"* "$CONFIG_DIR/micro/" 2>/dev/null || true
-fi
 
 if [ -d "$RIVERWM_DIR/fish" ]; then
 	cp -r "$RIVERWM_DIR/fish/"* "$CONFIG_DIR/fish/" 2>/dev/null || true
