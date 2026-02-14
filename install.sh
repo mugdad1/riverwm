@@ -23,7 +23,7 @@ echo "[*] Installing packages (may prompt for password)..."
 sudo xbps-install -Syu river chafa wlroots alacritty Waybar wofi mako grim \
 	slurp fish-shell light yazi viewnior ImageMagick polkit-gnome \
 	xorg-server-xwayland xdg-desktop-portal-wlr pulsemixer elogind \
-	mesa-dri tailscale mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
+	mesa-dri fuse-sshfs tailscale mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
 	neovim ripgrep fzf nodejs tree-sitter python3-virtualenv luarocks go shellcheck pulseaudio wl-clipboard cliphist swaylock swayidle wlsunset ||
 	die "Package installation failed"
 

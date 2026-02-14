@@ -2,7 +2,8 @@
 
 ## Autostart Programs
 exec swaybg -i ~/.config/river/bg.jpg &
-# Kill already running process
+
+# Kill already running processes
 _ps=(waybar mako)
 for _prs in "${_ps[@]}"; do
 	if [[ $(pidof ${_prs}) ]]; then
@@ -17,8 +18,12 @@ fi
 # Set wallpaper
 ~/.config/river/scripts/wallpaper &
 
-# Lauch notification daemon (mako)
+# Launch notification daemon (mako)
 ~/.config/river/scripts/notifications &
 
-# Lauch statusbar (waybar)
+# Launch statusbar (waybar)
 ~/.config/river/scripts/statusbar &
+
+# Mount SFTP Directory
+sleep 5 # Wait for the network to be available
+sshfs void@100.100.128.67:/home/void/filen /home/void/filen -o allow_other &
