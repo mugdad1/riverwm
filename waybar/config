@@ -9,6 +9,7 @@
   "height": 30,
   "spacing": 10,
   "modules-center": ["river/tags", "clock"],
+  "modules-right": ["battery"],
 
 
   "tray": {
