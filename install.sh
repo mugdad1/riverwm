@@ -40,6 +40,7 @@ if [ ! -d "$RIVERWM_DIR" ]; then
 	die "River configuration source directory not found: $RIVERWM_DIR"
 fi
 
+flatpak install org.onlyoffice.desktopeditors
 # Detailed copying with verbose output and error checking
 if [ -d "$RIVERWM_DIR" ] && [ "$(ls -A "$RIVERWM_DIR")" ]; then
 	# Ensure destination is empty or create it

@@ -23,7 +23,3 @@ fi
 
 # Launch statusbar (waybar)
 ~/.config/river/scripts/statusbar &
-
-# Mount SFTP Directory
-sleep 5 # Wait for the network to be available
-sshfs void@100.100.128.67:/home/void/filen /home/void/filen -o allow_other &
