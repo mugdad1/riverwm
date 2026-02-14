@@ -9,7 +9,7 @@ echo "[*] Installing packages (may prompt for password)..."
 sudo xbps-install -Syu river chafa wlroots alacritty Waybar wofi mako grim \
   slurp fish-shell micro light yazi viewnior ImageMagick polkit-gnome \
   xorg-server-xwayland xdg-desktop-portal-wlr pulsemixer elogind \
-  mesa-dri mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
+  mesa-dri tailscale  mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
   pulseaudio wl-clipboard cliphist swaylock swayidle wlsunset
 
 echo "[*] Fixing mistaken literal-brace directory if present..."
@@ -37,7 +37,7 @@ fi
 if [ -d "$RIVERWM_DIR" ]; then
   cp -r "$RIVERWM_DIR/"* "$CONFIG_DIR/river/" 2>/dev/null || true
 fi
-
+sudo ln -s /etc/sv/tailscaled /var/service/
 # Make sure init exists and is executable
 if [ -f "$CONFIG_DIR/river/init" ]; then
   chmod +x "$CONFIG_DIR/river/init"
