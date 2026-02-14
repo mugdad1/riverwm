@@ -29,9 +29,9 @@ create_directories() {
 # Install packages
 install_packages() {
 	sudo xbps-install -Syu river chafa wlroots alacritty Waybar wofi mako grim \
-		slurp trash-cli fish-shell light yazi viewnior ImageMagick polkit-gnome \
+		slurp trash-cli swaybg fish-shell light yazi viewnior ImageMagick polkit-gnome \
 		xorg-server-xwayland xdg-desktop-portal-wlr pulsemixer elogind \
-		mesa-dri fuse-sshfs tailscale mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
+		mesa-dri newt dialog fuse-sshfs tailscale mesa-vulkan-intel seatd dunst xdg-user-dirs-gtk nerd-fonts \
 		neovim ripgrep fzf psmisc nodejs tree-sitter python3-virtualenv luarocks go shellcheck pulseaudio wl-clipboard cliphist swaylock swayidle wlsunset ||
 		die "Package installation failed"
 }
@@ -73,10 +73,10 @@ make_init_executable() {
 		echo "[!] Warning: $RIVER_INIT not found; skipping chmod."
 	fi
 }
-
+enable
 # Enable Tailscale service
 enable_tailscale() {
-	sudo ln -sf /etc/sv/tailscaled /var/service/ ||
+	sudo ln -sf /etc/sv/seatd,tailscaled} /var/service/ ||
 		die "Failed to enable Tailscale service"
 }
 
