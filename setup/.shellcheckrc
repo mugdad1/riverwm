@@ -1,0 +1,4 @@
+# .shellcheckrc - ShellCheck linting rules
+disable=SC1091  # Ignore "not following source" warnings
+disable=SC2086  # Allow word splitting where intentional
+

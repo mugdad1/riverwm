@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+## Autostart Programs
+exec swaybg -i ~/.config/river/bg.jpg &
+
+# Kill already running processes
+_ps=(waybar mako)
+for _prs in "${_ps[@]}"; do
+	if [[ $(pidof ${_prs}) ]]; then
+		killall -9 ${_prs}
+	fi
+done
+
+if ! pgrep -x "polkit-gnome-authentication-agent-1" >/dev/null; then
+	/usr/libexec/polkit-gnome-authentication-agent-1 &
+fi
+
+# Set wallpaper
+~/.config/river/scripts/wallpaper &
+
+# Launch notification daemon (mako)
+~/.config/river/scripts/notifications &
+
+# Launch statusbar (waybar)
+~/.config/river/scripts/statusbar &

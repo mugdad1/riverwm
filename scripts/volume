@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+## Script To Manage Speaker Volume (in Wayland).
+
+# Get Volume
+get_volume() {
+	echo "$(pulsemixer --get-volume | cut -d' ' -f1)"
+}
+
+# Increase Volume
+inc_volume() {
+	[[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute
+	pulsemixer --max-volume 100 --change-volume +5 && get_icon && notify_user
+}
+
+# Decrease Volume
+dec_volume() {
+	[[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute
+	pulsemixer --max-volume 100 --change-volume -5 && get_icon && notify_user
+}
+
+# Toggle Mute
+toggle_mute() {
+	if [[ $(pulsemixer --get-mute) == 0 ]]; then
+		pulsemixer --toggle-mute && ${notify_cmd} -i "$iDIR/volume-mute.png" "Mute"
+	else
+		pulsemixer --toggle-mute && get_icon && ${notify_cmd} -i "$icon" "Unmute"
+	fi
+}
+
+# Toggle Mic
+
+# Execute accordingly
+if [[ -x $(which pulsemixer) ]]; then
+	if [[ "$1" == "--get" ]]; then
+		get_volume
+	elif [[ "$1" == "--inc" ]]; then
+		inc_volume
+	elif [[ "$1" == "--dec" ]]; then
+		dec_volume
+	elif [[ "$1" == "--toggle" ]]; then
+		toggle_mute
+	elif [[ "$1" == "--toggle-mic" ]]; then
+		toggle_mic
+	else
+		echo $(get_volume)%
+	fi
+else
+	${notify_cmd} "'pulsemixer' is not installed."
+fi

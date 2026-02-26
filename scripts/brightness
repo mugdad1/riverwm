@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Increase brightness
+inc_backlight() {
+	light -A 5
+}
+
+# Decrease brightness
+dec_backlight() {
+	light -U 5
+}
+
+# Execute accordingly
+if [[ "$1" == "--get" ]]; then
+	get_backlight
+elif [[ "$1" == "--inc" ]]; then
+	inc_backlight
+elif [[ "$1" == "--dec" ]]; then
+	dec_backlight
+else
+	get_backlight
+fi

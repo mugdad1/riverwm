@@ -1,0 +1,38 @@
+{
+  "name": "top",
+  "layer": "top",
+  "position": "top",
+  "mode": "dock",
+  "margin-top": 5,
+  "margin-left": 5,
+  "margin-right": 5,
+  "height": 30,
+  "spacing": 10,
+  "modules-center": ["river/tags", "clock"],
+  "modules-right": ["battery"],
+
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 5,
+  },
+
+  "clock": {
+    "format": "{:%H:%M }",
+ },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20,
+    },
+    "format": "{capacity}% {icon}",
+    "format-charging": "{capacity}% 󰚥",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["", "", "", "", ""],
+  },
+  "river/tags": {
+    "num-tags": 7,
+    "disable-click": false,
+  },
+}
