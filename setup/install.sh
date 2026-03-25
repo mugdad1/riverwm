@@ -13,7 +13,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib/utils.sh"
 source "$SCRIPT_DIR/lib/config.sh"
 source "$SCRIPT_DIR/lib/packages.sh"
-source "$SCRIPT_DIR/lib/vpl.sh"
+#source "$SCRIPT_DIR/lib/vpl.sh"
 source "$SCRIPT_DIR/lib/config_apps.sh"
 source "$SCRIPT_DIR/lib/services.sh"
 
@@ -60,7 +60,7 @@ main() {
     install_packages
     
     # Setup Intel VPL
-    setup_intel_vpl
+    #setup_intel_vpl
     
     # Configure applications
     copy_river_config
