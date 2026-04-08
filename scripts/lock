@@ -1,0 +1,34 @@
+#!/bin/sh
+# Lock screen using swaylock
+
+BG="$HOME/.config/river/bg.jpg"
+
+if pidof swaylock >/dev/null 2>&1; then
+    pkill swaylock
+else
+    swaylock \
+        -f \
+        -i "$BG" \
+        --ignore-empty-password \
+        --show-failed-attempts \
+        --fade-in 0.3 \
+        --clock \
+        --timestr "%H:%M" \
+        --timesize 48 \
+        --datestr "%a, %b %d" \
+        --datesize 24 \
+        --line-color 00000000 \
+        --key-hl-color ebdbb2 \
+        --ring-color ebdbb2 \
+        --ring-clear-color 504945 \
+        --ring-ver-color 98971a \
+        --ring-wrong-color cc241d \
+        --inside-color 00000088 \
+        --inside-clear-color 00000088 \
+        --inside-ver-color 00000088 \
+        --inside-wrong-color 00000088 \
+        --text-color ebdbb2 \
+        --text-clear-color ebdbb2 \
+        --text-ver-color ebdbb2 \
+        --text-wrong-color cc241d
+fi

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Clipboard manager using cliphist and wofi
+# Stores clipboard history and allows selection
+
+WIDTH=600
+HEIGHT=400
+
+STORE_MODE="${1:-}"
+if [ "$STORE_MODE" = "--store" ]; then
+    cliphist store
+    exit 0
+fi
+
+SELECTED=$(cliphist list | wofi \
+    --show=drun \
+    --prompt "Clipboard" \
+    --width="$WIDTH" \
+    --height="$HEIGHT" \
+    --location=top \
+    --allow-markup \
+    --line-wrap \
+    --normal-window)
+
+if [ -n "$SELECTED" ]; then
+    echo "$SELECTED" | cliphist decode | wl-copy
+fi

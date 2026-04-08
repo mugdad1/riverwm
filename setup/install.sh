@@ -29,13 +29,24 @@ preflight_checks() {
     
     check_not_root
     
-    # Check for required commands
-    local required_cmds=("git" "sudo" "whoami")
+    # Check and install required commands
+    local required_cmds=("sudo" "whoami")
+    local install_cmds=()
     for cmd in "${required_cmds[@]}"; do
         if ! cmd_exists "$cmd"; then
-            log_error "Required command not found: $cmd"
+            install_cmds+=("$cmd")
         fi
     done
+    
+    # Auto-install git if missing
+    if ! cmd_exists git; then
+        log_info "Installing git..."
+        sudo xbps-install -S git || log_error "Failed to install git"
+    fi
+    
+    if [ ${#install_cmds[@]} -gt 0 ]; then
+        log_error "Missing required commands: ${install_cmds[*]}"
+    fi
     
     log_info "Pre-flight checks passed"
 }

@@ -102,8 +102,8 @@ riverctl map normal Super F toggle-fullscreen
 # Super+D to spawn rofi drun
 riverctl map normal Super D spawn '$HOME/.config/river/scripts/wofi_menu'
 
-# Super+v to open clipboard
-riverctl map normal Super v spawn 'cliphist list | wofi -dmenu -p Clipboard | cliphist decode | wl-copy'
+# Super+L to lock screen
+riverctl map normal Super L spawn '$HOME/.config/river/scripts/lock'
 
-# Super+Shift+C to clear clipboard
-#riverctl map normal Super+Shift C spawn 'cliphist wipe'
+# Super+v to open clipboard
+riverctl map normal Super v spawn '$HOME/.config/river/scripts/clipboard'
