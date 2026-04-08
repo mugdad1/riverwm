@@ -23,7 +23,7 @@ create_directories() {
 }
 
 #######################################
-# Copy River configuration
+# Symlink River configuration
 # Globals:
 #   RIVERWM_DIR
 #   RIVER_CONFIG_DIR
@@ -32,23 +32,25 @@ create_directories() {
 # Returns:
 #   0 on success, exits on failure
 #######################################
-copy_river_config() {
-    log_info "Copying River configuration..."
+link_river_config() {
+    log_info "Symlinking River configuration..."
     
     if [[ ! -d "$RIVERWM_DIR" ]]; then
         log_error "River config source not found: $RIVERWM_DIR"
     fi
     
-    # Copy all files except fish and .git
-    find "$RIVERWM_DIR" -mindepth 1 -maxdepth 1 \
-        ! -name 'fish' ! -name '.git' \
-        -exec cp -rv {} "$RIVER_CONFIG_DIR/" \;
+    # Create symlink to river directory (everything except fish and .git is linked)
+    if [[ -L "$RIVER_CONFIG_DIR" ]] || [[ -d "$RIVER_CONFIG_DIR" ]]; then
+        log_warn "River config already exists at $RIVER_CONFIG_DIR, skipping"
+    else
+        ln -sf "$RIVERWM_DIR" "$RIVER_CONFIG_DIR"
+    fi
     
-    log_info "River configuration copied"
+    log_info "River configuration symlinked"
 }
 
 #######################################
-# Copy Fish shell configuration
+# Symlink Fish shell configuration
 # Globals:
 #   RIVERWM_DIR
 #   FISH_CONFIG_DIR
@@ -57,18 +59,22 @@ copy_river_config() {
 # Returns:
 #   0 on success, exits on failure
 #######################################
-copy_fish_config() {
-    log_info "Copying Fish configuration..."
+link_fish_config() {
+    log_info "Symlinking Fish configuration..."
     
     if [[ ! -d "$RIVERWM_DIR/fish" ]]; then
         log_warn "Fish config source not found: $RIVERWM_DIR/fish"
         return 0
     fi
     
-    ensure_dir "$FISH_CONFIG_DIR"
-    safe_copy "$RIVERWM_DIR/fish"/* "$FISH_CONFIG_DIR/"
+    if [[ -L "$FISH_CONFIG_DIR" ]] || [[ -d "$FISH_CONFIG_DIR" ]]; then
+        log_warn "Fish config already exists at $FISH_CONFIG_DIR, skipping"
+    else
+        mkdir -p "$(dirname "$FISH_CONFIG_DIR")"
+        ln -sf "$RIVERWM_DIR/fish" "$FISH_CONFIG_DIR"
+    fi
     
-    log_info "Fish configuration copied"
+    log_info "Fish configuration symlinked"
 }
 
 #######################################

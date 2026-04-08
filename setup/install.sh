@@ -74,8 +74,8 @@ main() {
     setup_intel_vpl
     
     # Configure applications
-    copy_river_config
-    copy_fish_config
+    link_river_config
+    link_fish_config
     update_fish_env
     setup_neovim_config
     make_init_executable
