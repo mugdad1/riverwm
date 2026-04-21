@@ -31,7 +31,7 @@ check_not_root() {
 cleanup() {
     local exit_code=$?
     if [[ $exit_code -ne 0 ]]; then
-        log_error "Script failed with exit code $exit_code"
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] [ERROR] Script failed with exit code $exit_code" >&2
     fi
 }
 

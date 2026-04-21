@@ -41,10 +41,10 @@ link_river_config() {
     
     # Create symlink to river directory (everything except fish and .git is linked)
     if [[ -L "$RIVER_CONFIG_DIR" ]] || [[ -d "$RIVER_CONFIG_DIR" ]]; then
-        log_warn "River config already exists at $RIVER_CONFIG_DIR, skipping"
-    else
-        ln -sf "$RIVERWM_DIR" "$RIVER_CONFIG_DIR"
+        log_warn "Removing existing River config at $RIVER_CONFIG_DIR"
+        rm -rf "$RIVER_CONFIG_DIR"
     fi
+    ln -sf "$RIVERWM_DIR" "$RIVER_CONFIG_DIR"
     
     log_info "River configuration symlinked"
 }
@@ -68,11 +68,11 @@ link_fish_config() {
     fi
     
     if [[ -L "$FISH_CONFIG_DIR" ]] || [[ -d "$FISH_CONFIG_DIR" ]]; then
-        log_warn "Fish config already exists at $FISH_CONFIG_DIR, skipping"
-    else
-        mkdir -p "$(dirname "$FISH_CONFIG_DIR")"
-        ln -sf "$RIVERWM_DIR/fish" "$FISH_CONFIG_DIR"
+        log_warn "Removing existing Fish config at $FISH_CONFIG_DIR"
+        rm -rf "$FISH_CONFIG_DIR"
     fi
+    mkdir -p "$(dirname "$FISH_CONFIG_DIR")"
+    ln -sf "$RIVERWM_DIR/fish" "$FISH_CONFIG_DIR"
     
     log_info "Fish configuration symlinked"
 }

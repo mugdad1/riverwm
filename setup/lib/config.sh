@@ -2,7 +2,7 @@
 # lib/config.sh - Centralized configuration
 
 # User and home directory
-readonly USER_HOME="${HOME:-/home/$(whoami)}"
+readonly USER_HOME="$HOME"
 
 # Directory paths
 readonly RIVERWM_DIR="${RIVERWM_DIR:-$USER_HOME/riverwm}"

@@ -13,14 +13,11 @@
 enable_services() {
     log_info "Enabling system services..."
     
-    local service_links=()
     for service in "${SERVICES[@]}"; do
-        service_links+=("/etc/sv/$service")
+        if ! sudo ln -sf "/etc/sv/$service" "/var/service/$service"; then
+            log_warn "Failed to enable service: $service"
+        fi
     done
-    
-    if ! sudo ln -sf "${service_links[@]}" /var/service/; then
-        log_error "Failed to enable services"
-    fi
     
     log_info "Services enabled"
 }

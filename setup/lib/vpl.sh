@@ -18,7 +18,7 @@ setup_intel_vpl() {
     if [[ -d "$VPL_SOURCE" ]]; then
         log_info "VPL directory exists. Updating source..."
         cd "$VPL_SOURCE" || log_error "Failed to enter VPL source directory"
-        if ! sudo git pull; then
+        if ! sudo git -C "$VPL_SOURCE" pull; then
             log_warn "Git pull failed, proceeding with existing code"
         fi
     else
@@ -107,7 +107,7 @@ vpl_setup_symlinks() {
     local base_no_version="${base_name%.*}"
     
     # Create symlinks
-    for version in 1.2 1 ""; do
+    for version in 1.2 1; do
         local link_name="${base_no_version}.${version}"
         if ! sudo ln -sf "$base_name" "$link_name"; then
             log_warn "Failed to create symlink for $link_name"
