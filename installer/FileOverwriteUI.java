@@ -2,17 +2,20 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.nio.file.*;
+import java.util.List;
 import javax.swing.*;
 
 public class FileOverwriteUI extends JFrame {
     private JList<String> fileList;
     private DefaultListModel<String> listModel;
     private JButton overwriteButton;
+    private JButton restoreButton;
     private JTextArea statusArea;
     private JLabel sourceLabel;
     private JLabel targetLabel;
     private File sourceDir;
     private File configDir;
+    private DatabaseManager dbManager;
 
     public FileOverwriteUI() {
         setTitle("River WM Config Overwrite Tool");
@@ -23,6 +26,7 @@ public class FileOverwriteUI extends JFrame {
         // Initialize directories
         sourceDir = new File(System.getProperty("user.home"), "riverwm");
         configDir = new File(System.getProperty("user.home"), ".config");
+        dbManager = DatabaseManager.getInstance();
 
         // Main panel
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
@@ -53,10 +57,12 @@ public class FileOverwriteUI extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         overwriteButton = new JButton("Overwrite Selected");
+        restoreButton = new JButton("Restore");
         JButton refreshButton = new JButton("Refresh");
         JButton cancelButton = new JButton("Exit");
 
         overwriteButton.addActionListener(e -> overwriteFiles());
+        restoreButton.addActionListener(e -> openRestoreDialog());
         refreshButton.addActionListener(e -> {
             listModel.clear();
             loadFiles();
@@ -65,6 +71,7 @@ public class FileOverwriteUI extends JFrame {
         cancelButton.addActionListener(e -> System.exit(0));
 
         buttonPanel.add(refreshButton);
+        buttonPanel.add(restoreButton);
         buttonPanel.add(overwriteButton);
         buttonPanel.add(cancelButton);
 
@@ -122,13 +129,11 @@ public class FileOverwriteUI extends JFrame {
         int successCount = 0;
         int errorCount = 0;
 
-        // Ensure base directories exist
         File fishDir = new File(configDir, "fish");
         File riverDir = new File(configDir, "river");
         fishDir.mkdirs();
         riverDir.mkdirs();
-        result.append("✓ Ensured ~/.config/fish/ exists\n");
-        result.append("✓ Ensured ~/.config/river/ exists\n\n");
+        result.append("Ensured ~/.config/fish/ and ~/.config/river/ exist\n\n");
 
         for (int index : selectedIndices) {
             String itemName = listModel.getElementAt(index).replace("/", "");
@@ -137,22 +142,28 @@ public class FileOverwriteUI extends JFrame {
             File targetFile = new File(configDir, targetSubdir);
 
             try {
+                if (targetFile.exists()) {
+                    String backupPath = dbManager.saveBackup(itemName, targetFile.getAbsolutePath());
+                    copyToBackup(targetFile, new File(backupPath));
+                    result.append("Backed up: ").append(itemName).append(" -> ").append(backupPath).append("\n");
+                }
+
                 if (sourceFile.isDirectory()) {
                     targetFile.getParentFile().mkdirs();
                     if (targetFile.exists()) {
                         deleteDirectory(targetFile);
                     }
                     copyDirectory(sourceFile, targetFile);
-                    result.append("✓ Overwritten directory: ~/.config/").append(targetSubdir).append("/\n");
+                    result.append("Overwritten directory: ~/.config/").append(targetSubdir).append("/\n");
                     successCount++;
                 } else {
                     targetFile.getParentFile().mkdirs();
                     Files.copy(sourceFile.toPath(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    result.append("✓ Overwritten file: ~/.config/").append(targetSubdir).append("\n");
+                    result.append("Overwritten file: ~/.config/").append(targetSubdir).append("\n");
                     successCount++;
                 }
-            } catch (IOException ex) {
-                result.append("✗ Error with ").append(itemName).append(": ").append(ex.getMessage()).append("\n");
+            } catch (Exception ex) {
+                result.append("Error with ").append(itemName).append(": ").append(ex.getMessage()).append("\n");
                 errorCount++;
             }
         }
@@ -160,6 +171,42 @@ public class FileOverwriteUI extends JFrame {
         result.append("\n--- Summary ---\n");
         result.append("Success: ").append(successCount).append(" | Errors: ").append(errorCount);
         statusArea.setText(result.toString());
+    }
+
+    private void copyToBackup(File source, File destination) throws IOException {
+        if (source.isDirectory()) {
+            copyDirectory(source, destination);
+        } else {
+            destination.getParentFile().mkdirs();
+            Files.copy(source.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
+    private void openRestoreDialog() {
+        try {
+            List<String> filenames = dbManager.getAllBackupFilenames();
+            if (filenames.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No backups found.", "Restore", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            String selectedFilename = (String) JOptionPane.showInputDialog(
+                this,
+                "Select a config to restore:",
+                "Restore Backup",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                filenames.toArray(),
+                filenames.get(0)
+            );
+
+            if (selectedFilename != null) {
+                BackupHistoryDialog dialog = new BackupHistoryDialog(this, selectedFilename, dbManager);
+                dialog.setVisible(true);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error loading backups: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void copyDirectory(File source, File destination) throws IOException {
