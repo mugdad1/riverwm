@@ -111,11 +111,7 @@ public class FileOverwriteUI extends JFrame {
     }
 
     private String getTargetPath(String itemName) {
-        if (itemName.equals("fish")) {
-            return "fish";
-        } else {
-            return "river";
-        }
+        return itemName;
     }
 
     private void overwriteFiles() {
@@ -143,6 +139,7 @@ public class FileOverwriteUI extends JFrame {
 
             try {
                 if (targetFile.exists()) {
+                    dbManager.deleteOldBackups(itemName);
                     String backupPath = dbManager.saveBackup(itemName, targetFile.getAbsolutePath());
                     copyToBackup(targetFile, new File(backupPath));
                     result.append("Backed up: ").append(itemName).append(" -> ").append(backupPath).append("\n");
@@ -217,6 +214,9 @@ public class FileOverwriteUI extends JFrame {
         File[] files = source.listFiles();
         if (files != null) {
             for (File file : files) {
+                if (file.getName().equals("backups")) {
+                    continue;
+                }
                 File newFile = new File(destination, file.getName());
                 if (file.isDirectory()) {
                     copyDirectory(file, newFile);
@@ -234,7 +234,7 @@ public class FileOverwriteUI extends JFrame {
                 if (file.isDirectory()) {
                     deleteDirectory(file);
                 } else {
-                    Files.delete(file.toPath());
+                    Files.deleteIfExists(file.toPath());
                 }
             }
         }

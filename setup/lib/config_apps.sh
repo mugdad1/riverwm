@@ -1,11 +1,12 @@
 #!/bin/bash
-# lib/config_apps.sh - Configure River, Fish, Neovim
+# lib/config_apps.sh - Configure River, Fish, Neovim, Alacritty
 
 #######################################
 # Create necessary directories
 # Globals:
 #   RIVER_CONFIG_DIR
 #   FISH_CONFIG_DIR
+#   ALACRITTY_CONFIG_DIR
 #   SCREENSHOTS_DIR
 # Arguments:
 #   None
@@ -17,6 +18,7 @@ create_directories() {
     
     ensure_dir "$RIVER_CONFIG_DIR"
     ensure_dir "$FISH_CONFIG_DIR"
+    ensure_dir "$ALACRITTY_CONFIG_DIR"
     ensure_dir "$SCREENSHOTS_DIR"
     
     log_info "Directories created"
@@ -75,6 +77,34 @@ link_fish_config() {
     ln -sf "$RIVERWM_DIR/fish" "$FISH_CONFIG_DIR"
     
     log_info "Fish configuration symlinked"
+}
+
+#######################################
+# Symlink Alacritty configuration
+# Globals:
+#   RIVERWM_DIR
+#   ALACRITTY_CONFIG_DIR
+# Arguments:
+#   None
+# Returns:
+#   0 on success, exits on failure
+#######################################
+link_alacritty_config() {
+    log_info "Symlinking Alacritty configuration..."
+    
+    if [[ ! -d "$RIVERWM_DIR/alacritty" ]]; then
+        log_warn "Alacritty config source not found: $RIVERWM_DIR/alacritty"
+        return 0
+    fi
+    
+    if [[ -L "$ALACRITTY_CONFIG_DIR" ]] || [[ -d "$ALACRITTY_CONFIG_DIR" ]]; then
+        log_warn "Removing existing Alacritty config at $ALACRITTY_CONFIG_DIR"
+        rm -rf "$ALACRITTY_CONFIG_DIR"
+    fi
+    mkdir -p "$(dirname "$ALACRITTY_CONFIG_DIR")"
+    ln -sf "$RIVERWM_DIR/alacritty" "$ALACRITTY_CONFIG_DIR"
+    
+    log_info "Alacritty configuration symlinked"
 }
 
 #######################################

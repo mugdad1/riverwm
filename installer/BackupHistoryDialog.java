@@ -121,11 +121,7 @@ public class BackupHistoryDialog extends JDialog {
     }
 
     private String getTargetPath(String itemName) {
-        if (itemName.equals("fish")) {
-            return "fish";
-        } else {
-            return "river";
-        }
+        return itemName;
     }
 
     private void copyDirectory(File source, File destination) throws IOException {
@@ -136,6 +132,9 @@ public class BackupHistoryDialog extends JDialog {
         File[] files = source.listFiles();
         if (files != null) {
             for (File file : files) {
+                if (file.getName().equals("backups")) {
+                    continue;
+                }
                 File newFile = new File(destination, file.getName());
                 if (file.isDirectory()) {
                     copyDirectory(file, newFile);

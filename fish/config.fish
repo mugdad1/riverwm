@@ -11,6 +11,13 @@ end
 
 
 
+
+
+# opencode
+fish_add_path /home/void/.opencode/bin
+
+
+
 # Intel VPL Environment (QSV)
 set -gx ONEVPL_PRIORITY_PATH /opt/vpl-gpu-rt/build/__bin/release
 set -gx LD_LIBRARY_PATH $ONEVPL_PRIORITY_PATH $LD_LIBRARY_PATH

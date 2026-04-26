@@ -1,0 +1,4 @@
+#!/bin/sh
+# Wrapper for Java AWT applications on non-reparenting window managers (e.g., riverwm)
+export _JAVA_AWT_WM_NONREPARENTING=1
+exec "$@"

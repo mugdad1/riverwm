@@ -4,8 +4,8 @@ working_directory = "None"
 
 # Themes --
 import = [ 
-  "~/.config/river/alacritty/gruvbox.toml",
-  "~/.config/river/alacritty/keybinds.toml"
+  "~/.config/alacritty/gruvbox.toml",
+  "~/.config/alacritty/keybinds.toml"
 ]
 
 [window]
@@ -35,7 +35,7 @@ TERM = "xterm-256color"
 #glyph_offset = { x = 1, y = 0 }
 normal.family = "MesloLGS Nerd Font Mono"
 normal.style = "Regular"
-size = 17.0
+size = 26.0
 
 [font.bold]
 family = "MesloLGS Nerd Font Mono"

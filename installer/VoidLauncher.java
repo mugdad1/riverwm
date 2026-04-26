@@ -53,25 +53,36 @@ public class VoidLauncher extends JFrame {
         setVisible(true);
     }
 
+    private String getClassPath() {
+        String currentDir = System.getProperty("user.dir");
+        File libDir = new File(currentDir, "lib");
+        File[] jars = libDir.listFiles((dir, name) -> name.endsWith(".jar"));
+        StringBuilder cp = new StringBuilder(currentDir);
+        if (jars != null) {
+            for (File jar : jars) {
+                cp.append(":").append(jar.getAbsolutePath());
+            }
+        }
+        return cp.toString();
+    }
+
     private void launchAppThreaded(String appName) {
         new Thread(() -> {
             statusLabel.setText("Launching " + appName + "...");
 
             try {
-                String currentDir = System.getProperty("user.dir");
-
                 ProcessBuilder pb = new ProcessBuilder(
                         "env",
                         "DISPLAY=" + System.getenv("DISPLAY"),
                         "_JAVA_AWT_WM_NONREPARENTING=1",
-                        "java", "-cp", currentDir, appName
+                        "java", "-cp", getClassPath(), appName
                 );
 
                 Map<String, String> env = pb.environment();
                 env.put("DISPLAY", System.getenv("DISPLAY"));
                 env.put("_JAVA_AWT_WM_NONREPARENTING", "1");
 
-                pb.directory(new File(currentDir));
+                pb.directory(new File(System.getProperty("user.dir")));
                 pb.inheritIO();
 
                 Process process = pb.start();
@@ -97,20 +108,18 @@ public class VoidLauncher extends JFrame {
             statusLabel.setText("Launching " + appName + "...");
 
             try {
-                String currentDir = System.getProperty("user.dir");
-
                 ProcessBuilder pb = new ProcessBuilder(
                         "env",
                         "DISPLAY=" + System.getenv("DISPLAY"),
                         "_JAVA_AWT_WM_NONREPARENTING=1",
-                        "java", "-cp", currentDir, appName
+                        "java", "-cp", getClassPath(), appName
                 );
 
                 Map<String, String> env = pb.environment();
                 env.put("DISPLAY", System.getenv("DISPLAY"));
                 env.put("_JAVA_AWT_WM_NONREPARENTING", "1");
 
-                pb.directory(new File(currentDir));
+                pb.directory(new File(System.getProperty("user.dir")));
                 pb.inheritIO();
 
                 Process process = pb.start();
@@ -132,6 +141,11 @@ public class VoidLauncher extends JFrame {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         SwingUtilities.invokeLater(VoidLauncher::new);
     }
 }

@@ -9,6 +9,7 @@ readonly RIVERWM_DIR="${RIVERWM_DIR:-$USER_HOME/riverwm}"
 readonly CONFIG_DIR="${XDG_CONFIG_HOME:-$USER_HOME/.config}"
 readonly RIVER_CONFIG_DIR="$CONFIG_DIR/river"
 readonly FISH_CONFIG_DIR="$CONFIG_DIR/fish"
+readonly ALACRITTY_CONFIG_DIR="$CONFIG_DIR/alacritty"
 readonly NVIM_CONFIG_DIR="$CONFIG_DIR/nvim"
 readonly SCREENSHOTS_DIR="$USER_HOME/Pictures/screenshots"
 

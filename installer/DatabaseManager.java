@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DatabaseManager {
     private static DatabaseManager instance;
-    private static final String DB_DIR = System.getProperty("user.home") + "/.config/river/backups";
+    private static final String DB_DIR = System.getProperty("user.home") + "/.config/backups";
     private static final String DB_PATH = DB_DIR + "/backups.db";
 
     private DatabaseManager() {
@@ -182,5 +182,55 @@ public class DatabaseManager {
 
     public static String getBackupDir() {
         return DB_DIR;
+    }
+
+    public void deleteOldBackups(String filename) throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
+
+            stmt = conn.prepareStatement(
+                "SELECT backup_path FROM config_backups WHERE filename = ?"
+            );
+            stmt.setString(1, filename);
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                String backupPath = rs.getString("backup_path");
+                File backupDir = new File(backupPath);
+                if (backupDir.exists()) {
+                    deleteDirectory(backupDir);
+                }
+            }
+            rs.close();
+            stmt.close();
+
+            stmt = conn.prepareStatement("DELETE FROM config_backups WHERE filename = ?");
+            stmt.setString(1, filename);
+            stmt.executeUpdate();
+
+        } finally {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+    }
+
+    private void deleteDirectory(File directory) {
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    deleteDirectory(file);
+                } else {
+                    file.delete();
+                }
+            }
+        }
+        directory.delete();
     }
 }
