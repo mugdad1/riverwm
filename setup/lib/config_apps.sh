@@ -25,7 +25,7 @@ create_directories() {
 }
 
 #######################################
-# Symlink River configuration
+# Copy River configuration
 # Globals:
 #   RIVERWM_DIR
 #   RIVER_CONFIG_DIR
@@ -35,20 +35,20 @@ create_directories() {
 #   0 on success, exits on failure
 #######################################
 link_river_config() {
-    log_info "Symlinking River configuration..."
+    log_info "Copying River configuration..."
     
     if [[ ! -d "$RIVERWM_DIR" ]]; then
         log_error "River config source not found: $RIVERWM_DIR"
     fi
     
-    # Create symlink to river directory (everything except fish and .git is linked)
+    # Copy river directory contents
     if [[ -L "$RIVER_CONFIG_DIR" ]] || [[ -d "$RIVER_CONFIG_DIR" ]]; then
         log_warn "Removing existing River config at $RIVER_CONFIG_DIR"
         rm -rf "$RIVER_CONFIG_DIR"
     fi
-    ln -sf "$RIVERWM_DIR" "$RIVER_CONFIG_DIR"
+    cp -r "$RIVERWM_DIR" "$RIVER_CONFIG_DIR"
     
-    log_info "River configuration symlinked"
+    log_info "River configuration copied"
 }
 
 #######################################
@@ -74,7 +74,7 @@ link_fish_config() {
         rm -rf "$FISH_CONFIG_DIR"
     fi
     mkdir -p "$(dirname "$FISH_CONFIG_DIR")"
-    ln -sf "$RIVERWM_DIR/fish" "$FISH_CONFIG_DIR"
+    cp -r "$RIVERWM_DIR/fish" "$FISH_CONFIG_DIR"
     
     log_info "Fish configuration symlinked"
 }
@@ -102,7 +102,7 @@ link_alacritty_config() {
         rm -rf "$ALACRITTY_CONFIG_DIR"
     fi
     mkdir -p "$(dirname "$ALACRITTY_CONFIG_DIR")"
-    ln -sf "$RIVERWM_DIR/alacritty" "$ALACRITTY_CONFIG_DIR"
+    cp -r "$RIVERWM_DIR/alacritty" "$ALACRITTY_CONFIG_DIR"
     
     log_info "Alacritty configuration symlinked"
 }
