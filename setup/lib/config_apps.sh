@@ -1,5 +1,5 @@
 #!/bin/bash
-# lib/config_apps.sh - Configure River, Fish, Neovim, Alacritty
+# lib/config_apps.sh - Configure River, Fish, Neovim, Alacritty, Mako
 
 #######################################
 # Create necessary directories
@@ -20,6 +20,7 @@ create_directories() {
     ensure_dir "$FISH_CONFIG_DIR"
     ensure_dir "$ALACRITTY_CONFIG_DIR"
     ensure_dir "$SCREENSHOTS_DIR"
+    ensure_dir "$RIVER_CONFIG_DIR/mako/icons"
     
     log_info "Directories created"
 }
@@ -41,7 +42,6 @@ link_river_config() {
         log_error "River config source not found: $RIVERWM_DIR"
     fi
     
-    # Copy river directory contents
     if [[ -L "$RIVER_CONFIG_DIR" ]] || [[ -d "$RIVER_CONFIG_DIR" ]]; then
         log_warn "Removing existing River config at $RIVER_CONFIG_DIR"
         rm -rf "$RIVER_CONFIG_DIR"
@@ -49,6 +49,33 @@ link_river_config() {
     cp -r "$RIVERWM_DIR" "$RIVER_CONFIG_DIR"
     
     log_info "River configuration copied"
+}
+
+#######################################
+# Link Mako notification configuration
+# Globals:
+#   RIVERWM_DIR
+#   RIVER_CONFIG_DIR
+# Arguments:
+#   None
+# Returns:
+#   0 on success, exits on failure
+#######################################
+link_mako_config() {
+    log_info "Copying Mako configuration..."
+    
+    if [[ ! -d "$RIVERWM_DIR/mako" ]]; then
+        log_warn "Mako config source not found: $RIVERWM_DIR/mako"
+        return 0
+    fi
+    
+    ensure_dir "$RIVER_CONFIG_DIR/mako"
+    ensure_dir "$RIVER_CONFIG_DIR/mako/icons"
+    
+    cp "$RIVERWM_DIR/mako/config" "$RIVER_CONFIG_DIR/mako/config"
+    cp -r "$RIVERWM_DIR/mako/icons/"* "$RIVER_CONFIG_DIR/mako/icons/"
+    
+    log_info "Mako configuration copied"
 }
 
 #######################################

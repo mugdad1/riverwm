@@ -103,7 +103,7 @@ riverctl map normal Super F toggle-fullscreen
 riverctl map normal Super D spawn '$HOME/.config/river/scripts/wofi_menu'
 
 # Super+L to lock screen
-riverctl map normal Super L spawn '$HOME/.config/river/scripts/lock'
+riverctl map normal Super+Shift P spawn '$HOME/.config/river/scripts/lock'
 
 # Super+v to open clipboard
 riverctl map normal Super v spawn '$HOME/.config/river/scripts/clipboard'

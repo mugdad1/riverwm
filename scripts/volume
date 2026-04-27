@@ -2,49 +2,61 @@
 
 ## Script To Manage Speaker Volume (in Wayland).
 
-# Get Volume
+NOTIFY_CMD="notify-send"
+iDIR="$HOME/.config/river/mako/icons"
+
+get_icon() {
+    vol=$(pulsemixer --get-volume | cut -d' ' -f1)
+    if [[ $(pulsemixer --get-mute) == 1 ]]; then
+        icon="$iDIR/volume-mute.png"
+    elif [[ $vol -eq 0 ]]; then
+        icon="$iDIR/volume-zero.png"
+    elif [[ $vol -lt 50 ]]; then
+        icon="$iDIR/volume-low.png"
+    else
+        icon="$iDIR/volume-high.png"
+    fi
+}
+
+notify_user() {
+    vol=$(pulsemixer --get-volume | cut -d' ' -f1)
+    ${NOTIFY_CMD} -i "$icon" "Volume" "$vol%"
+}
+
 get_volume() {
-	echo "$(pulsemixer --get-volume | cut -d' ' -f1)"
+    echo "$(pulsemixer --get-volume | cut -d' ' -f1)"
 }
 
-# Increase Volume
 inc_volume() {
-	[[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute
-	pulsemixer --max-volume 100 --change-volume +5 && get_icon && notify_user
+    [[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute
+    pulsemixer --max-volume 100 --change-volume +5 && get_icon && notify_user
 }
 
-# Decrease Volume
 dec_volume() {
-	[[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute
-	pulsemixer --max-volume 100 --change-volume -5 && get_icon && notify_user
+    [[ $(pulsemixer --get-mute) == 1 ]] && pulsemixer --unmute
+    pulsemixer --max-volume 100 --change-volume -5 && get_icon && notify_user
 }
 
-# Toggle Mute
 toggle_mute() {
-	if [[ $(pulsemixer --get-mute) == 0 ]]; then
-		pulsemixer --toggle-mute && ${notify_cmd} -i "$iDIR/volume-mute.png" "Mute"
-	else
-		pulsemixer --toggle-mute && get_icon && ${notify_cmd} -i "$icon" "Unmute"
-	fi
+    if [[ $(pulsemixer --get-mute) == 0 ]]; then
+        pulsemixer --toggle-mute && ${NOTIFY_CMD} -i "$iDIR/volume-mute.png" "Mute"
+    else
+        pulsemixer --toggle-mute && get_icon && ${NOTIFY_CMD} -i "$icon" "Unmute"
+    fi
 }
 
-# Toggle Mic
-
-# Execute accordingly
 if [[ -x $(which pulsemixer) ]]; then
-	if [[ "$1" == "--get" ]]; then
-		get_volume
-	elif [[ "$1" == "--inc" ]]; then
-		inc_volume
-	elif [[ "$1" == "--dec" ]]; then
-		dec_volume
-	elif [[ "$1" == "--toggle" ]]; then
-		toggle_mute
-	elif [[ "$1" == "--toggle-mic" ]]; then
-		toggle_mic
-	else
-		echo $(get_volume)%
-	fi
+    if [[ "$1" == "--get" ]]; then
+        get_volume
+    elif [[ "$1" == "--inc" ]]; then
+        inc_volume
+    elif [[ "$1" == "--dec" ]]; then
+        dec_volume
+    elif [[ "$1" == "--toggle" ]]; then
+        toggle_mute
+    else
+        echo $(get_volume)%
+    fi
 else
-	${notify_cmd} "'pulsemixer' is not installed."
+    ${NOTIFY_CMD} "Volume" "'pulsemixer' is not installed."
 fi

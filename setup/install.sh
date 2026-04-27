@@ -75,6 +75,7 @@ main() {
     
     # Configure applications
     link_river_config
+    link_mako_config
     link_fish_config
     link_alacritty_config
     update_fish_env

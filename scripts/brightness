@@ -1,22 +1,42 @@
 #!/usr/bin/env bash
 
-# Increase brightness
+NOTIFY_CMD="notify-send"
+iDIR="$HOME/.config/river/mako/icons"
+
+get_icon() {
+    bri=$(light)
+    if [[ $bri -lt 33 ]]; then
+        icon="$iDIR/brightness-low.png"
+    elif [[ $bri -lt 66 ]]; then
+        icon="$iDIR/brightness-mid.png"
+    else
+        icon="$iDIR/brightness-high.png"
+    fi
+}
+
+notify_user() {
+    bri=$(light)
+    ${NOTIFY_CMD} "Brightness" "${bri}%"
+}
+
+get_backlight() {
+    light
+}
+
 inc_backlight() {
-	light -A 5
+    light -A 5 && get_icon && notify_user
 }
 
-# Decrease brightness
 dec_backlight() {
-	light -U 5
+    light -U 5 && get_icon && notify_user
 }
 
-# Execute accordingly
 if [[ "$1" == "--get" ]]; then
-	get_backlight
+    get_backlight
 elif [[ "$1" == "--inc" ]]; then
-	inc_backlight
+    inc_backlight
 elif [[ "$1" == "--dec" ]]; then
-	dec_backlight
+    dec_backlight
 else
-	get_backlight
+    get_backlight
 fi

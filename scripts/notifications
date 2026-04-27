@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-## launch mako with alt config
-
 CONFIG="$HOME/.config/river/mako/config"
 
-if [[ ! `pidof mako` ]]; then
-	mako --config ${CONFIG}
+if ! pidof mako > /dev/null 2>&1; then
+    dbus-run-session mako --config "${CONFIG}"
 fi

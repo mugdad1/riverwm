@@ -1,9 +1,8 @@
 #!/bin/sh
 # Clipboard manager using cliphist and wofi
-# Stores clipboard history and allows selection
 
-WIDTH=600
-HEIGHT=400
+CONFIG="$HOME/.config/river/wofi/config"
+STYLE="$HOME/.config/river/wofi/style.css"
 
 STORE_MODE="${1:-}"
 if [ "$STORE_MODE" = "--store" ]; then
@@ -11,16 +10,9 @@ if [ "$STORE_MODE" = "--store" ]; then
     exit 0
 fi
 
-SELECTED=$(cliphist list | wofi \
-    --show=drun \
-    --prompt "Clipboard" \
-    --width="$WIDTH" \
-    --height="$HEIGHT" \
-    --location=top \
-    --allow-markup \
-    --line-wrap \
-    --normal-window)
+SELECTED=$(cliphist list | wofi --conf "$CONFIG" --style "$STYLE" --show=dmenu --prompt "Clipboard" --location=top --normal-window)
 
 if [ -n "$SELECTED" ]; then
-    echo "$SELECTED" | cliphist decode | wl-copy
+    ID=$(echo "$SELECTED" | cut -d: -f1)
+    cliphist decode "$ID" | wl-copy
 fi
