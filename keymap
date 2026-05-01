@@ -38,7 +38,7 @@ done
 # Super+Return to start an instance of alacritty
 #riverctl map normal Super Return spawn '$HOME/.config/river/scripts/foot'
 #riverctl map normal Super+Shift Return spawn '$HOME/.config/river/scripts/foot -f'
-riverctl map normal Super Return spawn '$HOME/.config/river/scripts/alacritty'
+riverctl map normal Super Return spawn "alacritty"
 riverctl map normal Super+Shift Return spawn '$HOME/.config/river/scripts/alacritty -f'
 
 # Super+W to close the focused view
@@ -50,7 +50,7 @@ riverctl map normal Super+Alt Q exit
 riverctl map normal Super R spawn $HOME/.config/river/init
 # pcmanfm-qt
 riverctl map normal Super y spawn "alacritty -e yazi"
-
+riverctl map normal Super E spawn "thunar"
 # firefox
 riverctl map normal Super B spawn "librewolf"
 #screenshot

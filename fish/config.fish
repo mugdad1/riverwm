@@ -15,7 +15,7 @@ end
 
 # opencode
 fish_add_path /home/void/.opencode/bin
-
+fish_add_path -U /home/void/.local/bin 
 
 
 # Intel VPL Environment (QSV)

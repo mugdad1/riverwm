@@ -21,7 +21,6 @@ fi
 
 # Set wallpaper
 # ~/.config/river/scripts/wallpaper &
-
 # Set resolution
 wlr-randr --output Virtual-1 --mode 1920x1080@60 &
 

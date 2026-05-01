@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-## launch waybar with alt config
-
 CONFIG="$HOME/.config/river/waybar/config"
 STYLE="$HOME/.config/river/waybar/style.css"
 
