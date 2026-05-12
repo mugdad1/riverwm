@@ -10,6 +10,9 @@ if [ "$STORE_MODE" = "--store" ]; then
     exit 0
 fi
 
+# Store current clipboard before showing history
+wl-paste | cliphist store
+
 SELECTED=$(cliphist list | wofi --conf "$CONFIG" --style "$STYLE" --show=dmenu --prompt "Clipboard" --location=top --normal-window)
 
 if [ -n "$SELECTED" ]; then
